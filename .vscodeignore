@@ -2,8 +2,13 @@
 .vscode-test/**
 test/**
 .gitignore
-.yarnrc
+jsconfig.json
 vsc-extension-quickstart.md
-**/jsconfig.json
-**/*.map
-**/.eslintrc.json
+.eslintrc.json
+.git
+.github
+todo.md
+images/*.gif
+node_modules/**/test
+node_modules/**/example
+node_modules/**/examples
