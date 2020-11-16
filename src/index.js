@@ -50,14 +50,13 @@ let methods = {
         let jsText = text.match(/<script[\w\W]+<\/script>\s?/);
         let cssText = text.match(/<style[\w\W]+<\/style>\s?/);
 
-        console.log(jsText)
 
         let htmlText = text;
         
         if(jsText != null){
             jsText.forEach(item => {
             
-                htmlText = htmlText.replace(item,'');
+                htmlText = htmlText.replace(item,()=>'');
                 
             });
         }
@@ -65,39 +64,31 @@ let methods = {
         if(cssText != null){
 
             cssText.forEach(item => {
-                htmlText = htmlText.replace(item,'');
+                htmlText = htmlText.replace(item,()=>'');
             });
         }
 
+        text = "";
+
         if (htmlText && formatNeed.includes('html')) {
-            text = text.replace(htmlText,this.beautyHtml(htmlText));
+            text += this.beautyHtml(htmlText) +"\n";
 
         }
+        
         if (jsText && formatNeed.includes('js')) {
-            let jsArr = jsText[0].split(/<\/script>\n*/);
-            jsArr.forEach((item, index) => {
-                let pre = '';
-                if (index === 0) {
-                    pre = '\n';
-                }
-                let str = item + '</script>';
+            
+            jsText.forEach(item => {
 
-
-                text = item ? text.replace(str, () => pre + this.beautyJs(str)) : text;
+                text +=  this.beautyJs(item) +"\n";
             });
             
         }
         if (cssText && formatNeed.includes('css')) {
-            let cssArr = cssText[0].split(/<\/style>\n*/);
-            cssArr.forEach((item, index) => {
-                let pre = '';
-                if (index === 0) {
-                    pre = '\n';
-                }
-                let str = item + '</style>';
-                text = item ? text.replace(str, () => pre + this.beautyCss(str)) : text;
+            cssText.forEach(item => {
+                text += this.beautyCss(item) ;
             });
         }
+
         this.newText = text.replace(/(\n|\t|\r)\s*(\n|\t|\r){2,}/g, '$1$1').trim() + '\n';
     },
     mergeFormatTag(arrUnFormat = [], arrForceFormat = []) {
