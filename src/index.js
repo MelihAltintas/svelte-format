@@ -50,6 +50,7 @@ let methods = {
         let jsText = text.match(/<script[\w\W]+<\/script>\s?/);
         let cssText = text.match(/<style[\w\W]+<\/style>\s?/);
 
+        console.log(jsText)
 
         let htmlText = text;
         
@@ -80,8 +81,11 @@ let methods = {
                     pre = '\n';
                 }
                 let str = item + '</script>';
-                text = item ? text.replace(str, pre + this.beautyJs(str)) : text;
+
+
+                text = item ? text.replace(str, () => pre + this.beautyJs(str)) : text;
             });
+            
         }
         if (cssText && formatNeed.includes('css')) {
             let cssArr = cssText[0].split(/<\/style>\n*/);
@@ -91,7 +95,7 @@ let methods = {
                     pre = '\n';
                 }
                 let str = item + '</style>';
-                text = item ? text.replace(str, pre + this.beautyCss(str)) : text;
+                text = item ? text.replace(str, () => pre + this.beautyCss(str)) : text;
             });
         }
         this.newText = text.replace(/(\n|\t|\r)\s*(\n|\t|\r){2,}/g, '$1$1').trim() + '\n';
@@ -146,9 +150,12 @@ let methods = {
         let lang = this.getLang(text);
         let str = text;
         text = text.replace(/<script[^>]*>([\w\W]*)<\/script>/, '$1');
+
+     
         if (text.trim()) {
             let tempConf = Object.assign({}, this.jsBeautifyConf, this.jsBeautifyConf.js);
             str = beautify.js(text, tempConf);
+
             return `<script${lang}${scoped}>\n${str}\n</script>`;
         } else {
             return str;
