@@ -8,6 +8,7 @@ const {
 const beautify = require('js-beautify');
 const pugBeautify = require('pug-beautify');
 
+
 const {
     breakTagAttr
 } = require('./plugins');
@@ -68,10 +69,12 @@ let methods = {
             });
         }
 
-        text = "";
+      
 
         if (htmlText && formatNeed.includes('html')) {
-            text += this.beautyHtml(htmlText) +"\n";
+
+     
+            text =  text.replace(htmlText.trim(),()=>this.beautyHtml(htmlText) +"\n");
 
         }
         
@@ -79,13 +82,13 @@ let methods = {
             
             jsText.forEach(item => {
 
-                text +=  this.beautyJs(item) +"\n";
+                text =  text.replace(item,()=>this.beautyJs(item) +"\n");
             });
             
         }
         if (cssText && formatNeed.includes('css')) {
             cssText.forEach(item => {
-                text += this.beautyCss(item) ;
+                text = text.replace(item,()=>this.beautyCss(item) +"\n");
             });
         }
 

@@ -2,7 +2,7 @@
 	"name": "svelte-format",
 	"displayName": "svelte-format",
 	"description": "A beautify extension for .svelte file",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"publisher": "melihaltintas",
 	"keyword": "svelte vscode format js-beautify extension",
 	"icon": "images/svelte.png",
@@ -63,6 +63,7 @@
 		"vscode-test": "^1.4.0"
 	},
 	"dependencies": {
+		"html-format": "^1.0.1",
 		"js-beautify": "^1.10.0",
 		"pug-beautify": "^0.1.1"
 	}
