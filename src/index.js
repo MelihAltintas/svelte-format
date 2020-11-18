@@ -7,11 +7,10 @@ const {
 
 const beautify = require('js-beautify');
 const pugBeautify = require('pug-beautify');
+const indentHtml = require('indent.js');
 
 
-const {
-    breakTagAttr
-} = require('./plugins');
+
 
 let defaultConf = require('./js-beautify.conf');
 let editor;
@@ -73,8 +72,8 @@ let methods = {
 
         if (htmlText && formatNeed.includes('html')) {
 
-     
-            text =  text.replace(htmlText.trim(),()=>this.beautyHtml(htmlText) +"\n");
+
+            text =  text.replace(htmlText.trim(),()=>indentHtml.html(htmlText,{tabString:'    '}) +"\n");
 
         }
         
@@ -115,13 +114,6 @@ let methods = {
         } else {
             let tempConf = Object.assign(this.jsBeautifyConf, this.jsBeautifyConf.html);
             str = beautify.html(text, tempConf);
-            if (tempConf.wrap_attributes == 'auto' && +this.svelteFormatConf.break_attr_limit > -1) {
-                str = breakTagAttr(str, +this.svelteFormatConf.break_attr_limit, {
-                    indentSize: +this.jsBeautifyConf.indent_size,
-                    attrEndWithGt: this.svelteFormatConf.attr_end_with_gt,
-                    tempConf: tempConf
-                });
-            }
         }
 
         return `${str}\n`;
